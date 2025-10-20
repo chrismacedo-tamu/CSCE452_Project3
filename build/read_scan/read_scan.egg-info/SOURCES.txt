@@ -1,0 +1,12 @@
+package.xml
+setup.py
+../../build/read_scan/read_scan.egg-info/PKG-INFO
+../../build/read_scan/read_scan.egg-info/SOURCES.txt
+../../build/read_scan/read_scan.egg-info/dependency_links.txt
+../../build/read_scan/read_scan.egg-info/entry_points.txt
+../../build/read_scan/read_scan.egg-info/requires.txt
+../../build/read_scan/read_scan.egg-info/top_level.txt
+../../build/read_scan/read_scan.egg-info/zip-safe
+read_scan/__init__.py
+read_scan/read_scan_node.py
+resource/read_scan

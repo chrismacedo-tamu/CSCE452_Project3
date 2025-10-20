@@ -1,0 +1,21 @@
+[0.601s] Invoking command in '/home/madmac/CSCE452_Project3/src/read_scan': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/madmac/CSCE452_Project3/build/read_scan/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/madmac/CSCE452_Project3/install/read_scan/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/read_scan build --build-base /home/madmac/CSCE452_Project3/build/read_scan/build install --record /home/madmac/CSCE452_Project3/build/read_scan/install.log --single-version-externally-managed install_data
+[0.718s] running egg_info
+[0.726s] writing ../../build/read_scan/read_scan.egg-info/PKG-INFO
+[0.726s] writing dependency_links to ../../build/read_scan/read_scan.egg-info/dependency_links.txt
+[0.726s] writing entry points to ../../build/read_scan/read_scan.egg-info/entry_points.txt
+[0.726s] writing requirements to ../../build/read_scan/read_scan.egg-info/requires.txt
+[0.727s] writing top-level names to ../../build/read_scan/read_scan.egg-info/top_level.txt
+[0.743s] reading manifest file '../../build/read_scan/read_scan.egg-info/SOURCES.txt'
+[0.743s] writing manifest file '../../build/read_scan/read_scan.egg-info/SOURCES.txt'
+[0.744s] running build
+[0.744s] running build_py
+[0.744s] running install
+[0.747s] running install_lib
+[0.756s] running install_data
+[0.756s] running install_egg_info
+[0.764s] removing '/home/madmac/CSCE452_Project3/install/read_scan/lib/python3.12/site-packages/read_scan-0.0.0-py3.12.egg-info' (and everything under it)
+[0.764s] Copying ../../build/read_scan/read_scan.egg-info to /home/madmac/CSCE452_Project3/install/read_scan/lib/python3.12/site-packages/read_scan-0.0.0-py3.12.egg-info
+[0.765s] running install_scripts
+[0.823s] Installing read_scan_node script to /home/madmac/CSCE452_Project3/install/read_scan/bin
+[0.824s] writing list of installed files to '/home/madmac/CSCE452_Project3/build/read_scan/install.log'
+[0.854s] Invoked command in '/home/madmac/CSCE452_Project3/src/read_scan' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/madmac/CSCE452_Project3/build/read_scan/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/madmac/CSCE452_Project3/install/read_scan/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/read_scan build --build-base /home/madmac/CSCE452_Project3/build/read_scan/build install --record /home/madmac/CSCE452_Project3/build/read_scan/install.log --single-version-externally-managed install_data

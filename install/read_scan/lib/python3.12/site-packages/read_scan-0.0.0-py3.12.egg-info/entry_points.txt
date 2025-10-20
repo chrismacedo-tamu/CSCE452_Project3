@@ -1,0 +1,2 @@
+[console_scripts]
+read_scan_node = read_scan.read_scan_node:main

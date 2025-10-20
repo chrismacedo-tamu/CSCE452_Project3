@@ -1,0 +1,12 @@
+source;share/publish_markers/hook/path.ps1
+source;share/publish_markers/hook/path.dsv
+source;share/publish_markers/hook/path.sh
+source;share/publish_markers/hook/pythonpath.ps1
+source;share/publish_markers/hook/pythonpath.dsv
+source;share/publish_markers/hook/pythonpath.sh
+source;share/publish_markers/hook/pythonscriptspath.ps1
+source;share/publish_markers/hook/pythonscriptspath.dsv
+source;share/publish_markers/hook/pythonscriptspath.sh
+source;share/publish_markers/hook/ament_prefix_path.ps1
+source;share/publish_markers/hook/ament_prefix_path.dsv
+source;share/publish_markers/hook/ament_prefix_path.sh
