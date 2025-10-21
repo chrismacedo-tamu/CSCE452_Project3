@@ -1,17 +1,1 @@
-<package format="3"> 
-    <name>publish_markers</name>
-    <version>0.0.0</version>
-    <description>Publishes markers</description>
-    <maintainer email="cmacedo99@tamu.edu">Christian Macedo</maintainer>
-    <license>MIT</license>
-
-    <buildtool_depend>ament_python</buildtool_depend>
-    <exec_depend>rclpy</exec_depend>
-    <exec_depend>sensor_msgs</exec_depend>
-    <exec_depend>geometry_msgs</exec_depend>
-
-    <export>
-        <build_type>ament_python</build_type>
-    </export>
-
-</package>
+/home/madmac/CSCE452_Project3/build/publish_markers/package.xml
