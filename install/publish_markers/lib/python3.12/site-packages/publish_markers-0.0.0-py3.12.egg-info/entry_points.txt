@@ -1,0 +1,2 @@
+[console_scripts]
+publish_markers_node = publish_markers.publish_markers_node:main
