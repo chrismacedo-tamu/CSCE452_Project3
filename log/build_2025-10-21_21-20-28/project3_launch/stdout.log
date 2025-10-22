@@ -1,0 +1,19 @@
+running develop
+Removing /home/madmac/CSCE452_Project3/install/project3_launch/lib/python3.12/site-packages/project3-launch.egg-link (link to .)
+running egg_info
+writing ../../build/project3_launch/project3_launch.egg-info/PKG-INFO
+writing dependency_links to ../../build/project3_launch/project3_launch.egg-info/dependency_links.txt
+writing requirements to ../../build/project3_launch/project3_launch.egg-info/requires.txt
+writing top-level names to ../../build/project3_launch/project3_launch.egg-info/top_level.txt
+reading manifest file '../../build/project3_launch/project3_launch.egg-info/SOURCES.txt'
+writing manifest file '../../build/project3_launch/project3_launch.egg-info/SOURCES.txt'
+running build
+running install
+running install_data
+copying resource/project3_launch -> /home/madmac/CSCE452_Project3/install/project3_launch/share/ament_index/resource_index/packages
+copying package.xml -> /home/madmac/CSCE452_Project3/install/project3_launch/share/project3_launch
+copying launch/project3.launch.py -> /home/madmac/CSCE452_Project3/install/project3_launch/share/project3_launch/launch
+running install_egg_info
+Copying ../../build/project3_launch/project3_launch.egg-info to /home/madmac/CSCE452_Project3/install/project3_launch/lib/python3.12/site-packages/project3_launch-0.0.0-py3.12.egg-info
+running install_scripts
+writing list of installed files to '/home/madmac/CSCE452_Project3/build/project3_launch/install.log'

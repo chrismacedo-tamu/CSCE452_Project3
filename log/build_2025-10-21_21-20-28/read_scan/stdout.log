@@ -1,0 +1,32 @@
+running develop
+Removing /home/madmac/CSCE452_Project3/install/read_scan/lib/python3.12/site-packages/read-scan.egg-link (link to .)
+running egg_info
+writing ../../build/read_scan/read_scan.egg-info/PKG-INFO
+writing dependency_links to ../../build/read_scan/read_scan.egg-info/dependency_links.txt
+writing entry points to ../../build/read_scan/read_scan.egg-info/entry_points.txt
+writing requirements to ../../build/read_scan/read_scan.egg-info/requires.txt
+writing top-level names to ../../build/read_scan/read_scan.egg-info/top_level.txt
+reading manifest file '../../build/read_scan/read_scan.egg-info/SOURCES.txt'
+writing manifest file '../../build/read_scan/read_scan.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/madmac/CSCE452_Project3/build/read_scan/build
+creating /home/madmac/CSCE452_Project3/build/read_scan/build/lib
+creating /home/madmac/CSCE452_Project3/build/read_scan/build/lib/read_scan
+copying read_scan/__init__.py -> /home/madmac/CSCE452_Project3/build/read_scan/build/lib/read_scan
+copying read_scan/read_scan_node.py -> /home/madmac/CSCE452_Project3/build/read_scan/build/lib/read_scan
+running install
+running install_lib
+creating /home/madmac/CSCE452_Project3/install/read_scan/lib/python3.12/site-packages/read_scan
+copying /home/madmac/CSCE452_Project3/build/read_scan/build/lib/read_scan/__init__.py -> /home/madmac/CSCE452_Project3/install/read_scan/lib/python3.12/site-packages/read_scan
+copying /home/madmac/CSCE452_Project3/build/read_scan/build/lib/read_scan/read_scan_node.py -> /home/madmac/CSCE452_Project3/install/read_scan/lib/python3.12/site-packages/read_scan
+byte-compiling /home/madmac/CSCE452_Project3/install/read_scan/lib/python3.12/site-packages/read_scan/__init__.py to __init__.cpython-312.pyc
+byte-compiling /home/madmac/CSCE452_Project3/install/read_scan/lib/python3.12/site-packages/read_scan/read_scan_node.py to read_scan_node.cpython-312.pyc
+running install_data
+copying resource/read_scan -> /home/madmac/CSCE452_Project3/install/read_scan/share/ament_index/resource_index/packages
+copying package.xml -> /home/madmac/CSCE452_Project3/install/read_scan/share/read_scan
+running install_egg_info
+Copying ../../build/read_scan/read_scan.egg-info to /home/madmac/CSCE452_Project3/install/read_scan/lib/python3.12/site-packages/read_scan-0.0.0-py3.12.egg-info
+running install_scripts
+Installing read_scan_node script to /home/madmac/CSCE452_Project3/install/read_scan/lib/read_scan
+writing list of installed files to '/home/madmac/CSCE452_Project3/build/read_scan/install.log'

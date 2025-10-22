@@ -1,4 +1,5 @@
 package.xml
+setup.cfg
 setup.py
 ../../build/read_scan/read_scan.egg-info/PKG-INFO
 ../../build/read_scan/read_scan.egg-info/SOURCES.txt

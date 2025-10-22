@@ -1,0 +1,24 @@
+[0.359s] Invoking command in '/home/madmac/CSCE452_Project3/build/publish_markers': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/madmac/CSCE452_Project3/build/publish_markers/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/madmac/CSCE452_Project3/install/publish_markers/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/madmac/CSCE452_Project3/build/publish_markers/build --no-deps symlink_data
+[0.497s] running develop
+[0.576s] running egg_info
+[0.576s] creating publish_markers.egg-info
+[0.582s] writing publish_markers.egg-info/PKG-INFO
+[0.583s] writing dependency_links to publish_markers.egg-info/dependency_links.txt
+[0.583s] writing entry points to publish_markers.egg-info/entry_points.txt
+[0.583s] writing requirements to publish_markers.egg-info/requires.txt
+[0.583s] writing top-level names to publish_markers.egg-info/top_level.txt
+[0.583s] writing manifest file 'publish_markers.egg-info/SOURCES.txt'
+[0.597s] reading manifest file 'publish_markers.egg-info/SOURCES.txt'
+[0.597s] writing manifest file 'publish_markers.egg-info/SOURCES.txt'
+[0.605s] running build_ext
+[0.605s] Creating /home/madmac/CSCE452_Project3/install/publish_markers/lib/python3.12/site-packages/publish-markers.egg-link (link to .)
+[0.605s] Installing publish_markers_node script to /home/madmac/CSCE452_Project3/install/publish_markers/lib/publish_markers
+[0.606s] 
+[0.606s] Installed /home/madmac/CSCE452_Project3/build/publish_markers
+[0.606s] running symlink_data
+[0.607s] creating /home/madmac/CSCE452_Project3/install/publish_markers/share/ament_index
+[0.607s] creating /home/madmac/CSCE452_Project3/install/publish_markers/share/ament_index/resource_index
+[0.607s] creating /home/madmac/CSCE452_Project3/install/publish_markers/share/ament_index/resource_index/packages
+[0.607s] symbolically linking /home/madmac/CSCE452_Project3/build/publish_markers/resource/publish_markers -> /home/madmac/CSCE452_Project3/install/publish_markers/share/ament_index/resource_index/packages
+[0.607s] symbolically linking /home/madmac/CSCE452_Project3/build/publish_markers/package.xml -> /home/madmac/CSCE452_Project3/install/publish_markers/share/publish_markers
+[0.623s] Invoked command in '/home/madmac/CSCE452_Project3/build/publish_markers' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/madmac/CSCE452_Project3/build/publish_markers/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/madmac/CSCE452_Project3/install/publish_markers/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/madmac/CSCE452_Project3/build/publish_markers/build --no-deps symlink_data

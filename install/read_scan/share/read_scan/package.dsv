@@ -1,12 +1,6 @@
-source;share/read_scan/hook/path.ps1
-source;share/read_scan/hook/path.dsv
-source;share/read_scan/hook/path.sh
 source;share/read_scan/hook/pythonpath.ps1
 source;share/read_scan/hook/pythonpath.dsv
 source;share/read_scan/hook/pythonpath.sh
-source;share/read_scan/hook/pythonscriptspath.ps1
-source;share/read_scan/hook/pythonscriptspath.dsv
-source;share/read_scan/hook/pythonscriptspath.sh
 source;share/read_scan/hook/ament_prefix_path.ps1
 source;share/read_scan/hook/ament_prefix_path.dsv
 source;share/read_scan/hook/ament_prefix_path.sh

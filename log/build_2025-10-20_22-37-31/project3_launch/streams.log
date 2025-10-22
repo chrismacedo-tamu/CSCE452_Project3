@@ -1,0 +1,24 @@
+[0.379s] Invoking command in '/home/madmac/CSCE452_Project3/build/project3_launch': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/madmac/CSCE452_Project3/build/project3_launch/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/madmac/CSCE452_Project3/install/project3_launch/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/madmac/CSCE452_Project3/build/project3_launch/build --no-deps symlink_data
+[0.519s] running develop
+[0.598s] running egg_info
+[0.598s] creating project3_launch.egg-info
+[0.605s] writing project3_launch.egg-info/PKG-INFO
+[0.605s] writing dependency_links to project3_launch.egg-info/dependency_links.txt
+[0.606s] writing requirements to project3_launch.egg-info/requires.txt
+[0.606s] writing top-level names to project3_launch.egg-info/top_level.txt
+[0.606s] writing manifest file 'project3_launch.egg-info/SOURCES.txt'
+[0.614s] reading manifest file 'project3_launch.egg-info/SOURCES.txt'
+[0.614s] writing manifest file 'project3_launch.egg-info/SOURCES.txt'
+[0.622s] running build_ext
+[0.629s] Creating /home/madmac/CSCE452_Project3/install/project3_launch/lib/python3.12/site-packages/project3-launch.egg-link (link to .)
+[0.629s] 
+[0.629s] Installed /home/madmac/CSCE452_Project3/build/project3_launch
+[0.630s] running symlink_data
+[0.630s] creating /home/madmac/CSCE452_Project3/install/project3_launch/share/ament_index
+[0.630s] creating /home/madmac/CSCE452_Project3/install/project3_launch/share/ament_index/resource_index
+[0.630s] creating /home/madmac/CSCE452_Project3/install/project3_launch/share/ament_index/resource_index/packages
+[0.630s] symbolically linking /home/madmac/CSCE452_Project3/build/project3_launch/resource/project3_launch -> /home/madmac/CSCE452_Project3/install/project3_launch/share/ament_index/resource_index/packages
+[0.630s] symbolically linking /home/madmac/CSCE452_Project3/build/project3_launch/package.xml -> /home/madmac/CSCE452_Project3/install/project3_launch/share/project3_launch
+[0.630s] creating /home/madmac/CSCE452_Project3/install/project3_launch/share/project3_launch/launch
+[0.630s] symbolically linking /home/madmac/CSCE452_Project3/build/project3_launch/launch/project3.launch.py -> /home/madmac/CSCE452_Project3/install/project3_launch/share/project3_launch/launch
+[0.648s] Invoked command in '/home/madmac/CSCE452_Project3/build/project3_launch' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/madmac/CSCE452_Project3/build/project3_launch/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/madmac/CSCE452_Project3/install/project3_launch/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/madmac/CSCE452_Project3/build/project3_launch/build --no-deps symlink_data
