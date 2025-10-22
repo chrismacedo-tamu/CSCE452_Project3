@@ -1,0 +1,25 @@
+[0.696s] Invoking command in '/home/madmac/CSCE452_Project3/src/project3_launch': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/madmac/CSCE452_Project3/build/project3_launch/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/madmac/CSCE452_Project3/install/project3_launch/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/project3_launch build --build-base /home/madmac/CSCE452_Project3/build/project3_launch/build install --record /home/madmac/CSCE452_Project3/build/project3_launch/install.log --single-version-externally-managed install_data
+[0.842s] running egg_info
+[0.842s] creating ../../build/project3_launch/project3_launch.egg-info
+[0.852s] writing ../../build/project3_launch/project3_launch.egg-info/PKG-INFO
+[0.852s] writing dependency_links to ../../build/project3_launch/project3_launch.egg-info/dependency_links.txt
+[0.852s] writing requirements to ../../build/project3_launch/project3_launch.egg-info/requires.txt
+[0.852s] writing top-level names to ../../build/project3_launch/project3_launch.egg-info/top_level.txt
+[0.853s] writing manifest file '../../build/project3_launch/project3_launch.egg-info/SOURCES.txt'
+[0.861s] reading manifest file '../../build/project3_launch/project3_launch.egg-info/SOURCES.txt'
+[0.861s] writing manifest file '../../build/project3_launch/project3_launch.egg-info/SOURCES.txt'
+[0.861s] running build
+[0.861s] running install
+[0.865s] running install_data
+[0.867s] creating /home/madmac/CSCE452_Project3/install/project3_launch/share/ament_index
+[0.867s] creating /home/madmac/CSCE452_Project3/install/project3_launch/share/ament_index/resource_index
+[0.867s] creating /home/madmac/CSCE452_Project3/install/project3_launch/share/ament_index/resource_index/packages
+[0.867s] copying resource/project3_launch -> /home/madmac/CSCE452_Project3/install/project3_launch/share/ament_index/resource_index/packages
+[0.867s] copying package.xml -> /home/madmac/CSCE452_Project3/install/project3_launch/share/project3_launch
+[0.867s] creating /home/madmac/CSCE452_Project3/install/project3_launch/share/project3_launch/launch
+[0.867s] copying launch/project3.launch.py -> /home/madmac/CSCE452_Project3/install/project3_launch/share/project3_launch/launch
+[0.867s] running install_egg_info
+[0.884s] Copying ../../build/project3_launch/project3_launch.egg-info to /home/madmac/CSCE452_Project3/install/project3_launch/lib/python3.12/site-packages/project3_launch-0.0.0-py3.12.egg-info
+[0.885s] running install_scripts
+[0.954s] writing list of installed files to '/home/madmac/CSCE452_Project3/build/project3_launch/install.log'
+[0.976s] Invoked command in '/home/madmac/CSCE452_Project3/src/project3_launch' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/madmac/CSCE452_Project3/build/project3_launch/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/madmac/CSCE452_Project3/install/project3_launch/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/project3_launch build --build-base /home/madmac/CSCE452_Project3/build/project3_launch/build install --record /home/madmac/CSCE452_Project3/build/project3_launch/install.log --single-version-externally-managed install_data
