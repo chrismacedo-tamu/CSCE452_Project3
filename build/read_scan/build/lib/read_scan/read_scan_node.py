@@ -24,9 +24,9 @@ class ReadScanNode(Node):
 
 
         # Using cluster detection to find moving people
-        self.cluster_threshold = 0.4
-        self.min_cluster_size = 3
-        self.max_cluster_size = 40
+        self.cluster_threshold = 1.5
+        self.min_cluster_size = 8
+        self.max_cluster_size = 30
 
     def scan_callback(self, msg):
         # Converting data to Cartesian coords 
@@ -48,7 +48,6 @@ class ReadScanNode(Node):
             if dist < self.cluster_threshold:
                 cur_cluster.append(points[i])
             else:
-
                 if self.min_cluster_size <= len(cur_cluster) <= self.max_cluster_size:
                     cluster_list.append(np.array(cur_cluster))
                 cur_cluster = [points[i]]
@@ -65,7 +64,7 @@ class ReadScanNode(Node):
             point_msg = PointStamped()
             point_msg.header = Header()
             point_msg.header.stamp = self.get_clock().now().to_msg()
-            point_msg.header.frame_id = "laser"
+            point_msg.header.frame_id = "base_link"
 
             point_msg.point.x = float(center[0])
             point_msg.point.y = float(center[1])
