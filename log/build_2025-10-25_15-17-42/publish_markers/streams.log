@@ -1,0 +1,21 @@
+[0.706s] Invoking command in '/home/madmac/CSCE452_Project3/src/publish_markers': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/madmac/CSCE452_Project3/build/publish_markers/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/madmac/CSCE452_Project3/install/publish_markers/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/publish_markers build --build-base /home/madmac/CSCE452_Project3/build/publish_markers/build install --record /home/madmac/CSCE452_Project3/build/publish_markers/install.log --single-version-externally-managed install_data
+[0.857s] running egg_info
+[0.871s] writing ../../build/publish_markers/publish_markers.egg-info/PKG-INFO
+[0.872s] writing dependency_links to ../../build/publish_markers/publish_markers.egg-info/dependency_links.txt
+[0.872s] writing entry points to ../../build/publish_markers/publish_markers.egg-info/entry_points.txt
+[0.872s] writing requirements to ../../build/publish_markers/publish_markers.egg-info/requires.txt
+[0.873s] writing top-level names to ../../build/publish_markers/publish_markers.egg-info/top_level.txt
+[0.892s] reading manifest file '../../build/publish_markers/publish_markers.egg-info/SOURCES.txt'
+[0.892s] writing manifest file '../../build/publish_markers/publish_markers.egg-info/SOURCES.txt'
+[0.892s] running build
+[0.892s] running build_py
+[0.892s] running install
+[0.899s] running install_lib
+[0.909s] running install_data
+[0.909s] running install_egg_info
+[0.917s] removing '/home/madmac/CSCE452_Project3/install/publish_markers/lib/python3.12/site-packages/publish_markers-0.0.0-py3.12.egg-info' (and everything under it)
+[0.917s] Copying ../../build/publish_markers/publish_markers.egg-info to /home/madmac/CSCE452_Project3/install/publish_markers/lib/python3.12/site-packages/publish_markers-0.0.0-py3.12.egg-info
+[0.918s] running install_scripts
+[0.986s] Installing publish_markers_node script to /home/madmac/CSCE452_Project3/install/publish_markers/lib/publish_markers
+[0.986s] writing list of installed files to '/home/madmac/CSCE452_Project3/build/publish_markers/install.log'
+[1.009s] Invoked command in '/home/madmac/CSCE452_Project3/src/publish_markers' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/madmac/CSCE452_Project3/build/publish_markers/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/madmac/CSCE452_Project3/install/publish_markers/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/publish_markers build --build-base /home/madmac/CSCE452_Project3/build/publish_markers/build install --record /home/madmac/CSCE452_Project3/build/publish_markers/install.log --single-version-externally-managed install_data
