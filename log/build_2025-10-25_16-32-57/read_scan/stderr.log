@@ -1,0 +1,5 @@
+  File "/home/madmac/CSCE452_Project3/install/read_scan/lib/python3.12/site-packages/read_scan/read_scan_node.py", line 5
+    Static objects - The shape filter alone isn't enough to distinguish people from static objects
+                                               ^
+SyntaxError: unterminated string literal (detected at line 5)
+
