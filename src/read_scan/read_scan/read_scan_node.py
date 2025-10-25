@@ -20,7 +20,7 @@ class ReadScanNode(Node):
         # Publishing to /people_data
         self.people_data = self.create_publisher(PointStamped, '/people_data', 10)
 
-        self.marker_pub = self.create_publisher(MarkerArray, '/people_markers', 10)
+        self.marker_pub = self.create_publisher(MarkerArray, '/person_markers', 10)
 
 
         # Using cluster detection to find moving people
