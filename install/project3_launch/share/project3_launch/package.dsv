@@ -4,3 +4,6 @@ source;share/project3_launch/hook/pythonpath.sh
 source;share/project3_launch/hook/ament_prefix_path.ps1
 source;share/project3_launch/hook/ament_prefix_path.dsv
 source;share/project3_launch/hook/ament_prefix_path.sh
+source;../../build/project3_launch/share/project3_launch/hook/pythonpath_develop.ps1
+source;../../build/project3_launch/share/project3_launch/hook/pythonpath_develop.dsv
+source;../../build/project3_launch/share/project3_launch/hook/pythonpath_develop.sh
