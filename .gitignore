@@ -1,5 +1,6 @@
 # ROS 2 / colcon
 build/
+install/
 log/
 
 # Python
@@ -12,3 +13,4 @@ __pycache__/
 # macOS / Windows
 .DS_Store
 Thumbs.db
+
