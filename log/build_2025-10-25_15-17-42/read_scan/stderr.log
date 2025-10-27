@@ -1,5 +1,0 @@
-  File "/home/madmac/CSCE452_Project3/install/read_scan/lib/python3.12/site-packages/read_scan/read_scan_node.py", line 80
-    if np.linalg.norm(center - tdata['pos']) < 0,6:
-                                                ^
-SyntaxError: invalid syntax
-

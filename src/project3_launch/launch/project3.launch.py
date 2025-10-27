@@ -1,6 +1,6 @@
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess, LogInfo, RegisterEventHandler, RegisterEventHandler
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, LogInfo, RegisterEventHandler, RegisterEventHandler, TimerAction
 from launch.event_handlers import OnProcessExit
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -34,9 +34,12 @@ def generate_launch_description():
     )
 
     # Recording all topics
-    bag_record = ExecuteProcess(
-        cmd=['ros2', 'bag', 'record', '-a', '-o', bag_out],
-        output='screen'
+    bag_record = TimerAction(
+        period=2.0,
+        actions=[
+            ExecuteProcess(cmd=['ros2', 'bag', 'record', '-a', '-o', bag_out],
+            output='screen')
+        ]
     )
 
     # Shutting evertything down when the bag playing finishes
@@ -45,9 +48,9 @@ def generate_launch_description():
             target_action=bag_play,
             on_exit = [
                 LogInfo(msg='Bag playback finished. Stopped recording...'),
-                ExecuteProcess(cmd=['pkill', '-f', 'ros2 bag record'], shell=True),
-                ExecuteProcess(cmd=['pkill', '-f', 'read_scan_node'], shell=True),
-                ExecuteProcess(cmd=['pkill', '-f', 'publish_markers_node'], shell=True)
+                ExecuteProcess(cmd=['pkill', '-f', 'ros2 bag record']),
+                ExecuteProcess(cmd=['pkill', '-f', 'read_scan_node']),
+                ExecuteProcess(cmd=['pkill', '-f', 'publish_markers_node']),
             ],
         )
     )
@@ -58,12 +61,6 @@ def generate_launch_description():
         DeclareLaunchArgument('bag_in', default_value='', description='Input bag file to play'),
         DeclareLaunchArgument('bag_out', default_value='output', description='Output bag file to record'),
 
-        # Play the input bag file
-        ExecuteProcess(
-            cmd=['ros2', 'bag', 'play', LaunchConfiguration('bag_in')],
-            output='screen',
-            shell=True
-        ),
 
         read_scan_node,
         LogInfo(msg='read_scan_node started...'), 

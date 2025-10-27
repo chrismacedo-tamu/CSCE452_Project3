@@ -10,11 +10,4 @@ setup.py
 ../../build/publish_markers/publish_markers.egg-info/zip-safe
 publish_markers/__init__.py
 publish_markers/publish_markers_node.py
-publish_markers.egg-info/PKG-INFO
-publish_markers.egg-info/SOURCES.txt
-publish_markers.egg-info/dependency_links.txt
-publish_markers.egg-info/entry_points.txt
-publish_markers.egg-info/requires.txt
-publish_markers.egg-info/top_level.txt
-publish_markers.egg-info/zip-safe
 resource/publish_markers

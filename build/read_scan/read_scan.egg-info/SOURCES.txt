@@ -10,11 +10,4 @@ setup.py
 ../../build/read_scan/read_scan.egg-info/zip-safe
 read_scan/__init__.py
 read_scan/read_scan_node.py
-read_scan.egg-info/PKG-INFO
-read_scan.egg-info/SOURCES.txt
-read_scan.egg-info/dependency_links.txt
-read_scan.egg-info/entry_points.txt
-read_scan.egg-info/requires.txt
-read_scan.egg-info/top_level.txt
-read_scan.egg-info/zip-safe
 resource/read_scan
