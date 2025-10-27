@@ -2,54 +2,49 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Header
 from sensor_msgs.msg import LaserScan
-from geometry_msgs.msg import PointStamped, Pose, PoseArray  
+from geometry_msgs.msg import PointStamped, Pose, PoseArray
 from visualization_msgs.msg import Marker, MarkerArray
 from builtin_interfaces.msg import Duration
+from collections import deque
 import numpy as np
 import math
+
 
 class ReadScanNode(Node):
     def __init__(self):
         super().__init__('read_scan_node')
 
-        # Subscribing to /scan
+        # Subscriptions
         self.scan = self.create_subscription(LaserScan, '/scan', self.scan_callback, 10)
 
-        # Publishing to /people_data (keep)
+        # Publishers
         self.people_data = self.create_publisher(PointStamped, '/people_data', 10)
+        self.debug_marker_pub = self.create_publisher(MarkerArray, '/debug_spheres', 10)
+        self.centroid_pub = self.create_publisher(PoseArray, '/valid_clusters', 10)
 
-        # DEBUG spheres (move off /person_markers)
-        self.debug_marker_pub = self.create_publisher(MarkerArray, '/debug_spheres', 10) 
-
-        # Centroids for tracker/markers node
-        self.centroid_pub = self.create_publisher(PoseArray, '/valid_clusters', 10)     
-
-        # Using cluster detection to find moving people
-        self.track_memory = {}
-        self.next_id = 0
+        # Clustering params
         self.cluster_threshold = 1.0
         self.min_cluster_size = 5
         self.max_cluster_size = 35
 
-        # Detection parameters
-        self.static_position_threshold = 0.08
-        self.static_check_frames = 10
-        self.smoothing_alpha = 0.7
-
-        # Static removal parameters
-        self.check_interval = 20
+        # Tracking store
+        self.track_memory = {}
+        self.next_id = 0
         self.frame_count = 0
 
-        self.last_time = None
+        self.get_logger().info("ReadScanNode started - WITH FILTERING")
 
     def scan_callback(self, msg: LaserScan):
         self.frame_count += 1
 
-        # Converting data to Cartesian coords
-        angles = msg.angle_min + np.arange(len(msg.ranges)) * msg.angle_increment
-        ranges = np.array(msg.ranges)
+        # Convert scan to cartesian
+        n = len(msg.ranges)
+        if n == 0:
+            return
+        angles = msg.angle_min + np.arange(n, dtype=float) * msg.angle_increment
+        ranges = np.array(msg.ranges, dtype=float)
 
-        # Filtering LIDAR data
+        # Filter ranges
         ranges = np.nan_to_num(ranges, nan=0.0, posinf=0.0, neginf=0.0)
         ranges = np.clip(ranges, 0.05, 8.0)
 
@@ -60,7 +55,7 @@ class ReadScanNode(Node):
         if points.shape[0] == 0:
             return
 
-        # Finding clusters - adaptive threshold
+        # Cluster consecutive points
         cluster_list = []
         cur_cluster = [points[0]]
         for i in range(1, len(points)):
@@ -76,196 +71,122 @@ class ReadScanNode(Node):
         if self.min_cluster_size <= len(cur_cluster) <= self.max_cluster_size:
             cluster_list.append(np.array(cur_cluster))
 
-        # Shape filter
+        # Shape filter (reject extreme elongation)
         filtered_clusters = []
         for cluster in cluster_list:
             if cluster.shape[0] >= 3:
                 cov = np.cov(cluster.T)
                 vals, _ = np.linalg.eig(cov)
-                major = np.sqrt(vals.max())
-                minor = np.sqrt(vals.min())
-                if minor > 0 and (major / minor) < 5:
+                major = float(np.sqrt(max(vals.max(), 1e-9)))
+                minor = float(np.sqrt(max(vals.min(), 1e-9)))
+                if minor > 0 and (major / minor) < 5.0:
                     filtered_clusters.append(cluster)
             else:
                 filtered_clusters.append(cluster)
 
         cur_centers = [np.mean(cluster, axis=0) for cluster in filtered_clusters]
-        cur_time = msg.header.stamp.sec + msg.header.stamp.nanosec * 1e-9
 
-        # Init tracking store (kept from your code)
-        if not hasattr(self, 'track_memory'):
-            self.track_memory = {}
-            self.next_id = 0
-
-        # Tracking parameters
-        max_missing = 20
-        min_seen_for_publish = 2
-        min_seen_for_static_check = 10
-
-        # dt
-        time_delta = 0.1
-        if self.last_time is not None:
-            time_delta = max(cur_time - self.last_time, 0.01)
-        self.last_time = cur_time
-
+        # Track clusters over time
         updated_tracks = {}
         matched_track_ids = set()
 
-        # --- Matching (unchanged) ---
+        # Match current detections to existing tracks
         for center in cur_centers:
             best_track = None
             best_dist = float('inf')
             for tid, tdata in self.track_memory.items():
-                match_pos = tdata.get('smoothed_pos', tdata['pos'])
-                dist = np.linalg.norm(center - match_pos)
-                missing_frames = tdata.get('missing', 0)
-                if tdata.get('confirmed_moving', False):
-                    max_dist = 1.8 + (missing_frames * 0.25)
-                elif tdata['seen_count'] >= min_seen_for_publish:
-                    max_dist = 1.2 + (missing_frames * 0.2)
-                else:
-                    max_dist = 0.7
-                if dist < best_dist and dist < max_dist:
+                dist = np.linalg.norm(center - tdata['last_pos'])
+                if dist < best_dist and dist < 1.5:  # 1.5m association gate
                     best_dist = dist
                     best_track = tid
 
             if best_track is not None:
+                # Update existing track
                 old_data = self.track_memory[best_track]
-                smoothed_pos = (self.smoothing_alpha * center +
-                                (1 - self.smoothing_alpha) * old_data.get('smoothed_pos', center))
-                raw_position_history = old_data.get('raw_position_history', [])
-                raw_position_history.append(center)
-                raw_position_history = raw_position_history[-self.static_check_frames:]
-                initial_pos = old_data.get('initial_pos', center)
-                distance_from_start = np.linalg.norm(center - initial_pos)
-
-                if len(raw_position_history) >= self.static_check_frames:
-                    positions = np.array(raw_position_history)
-                    position_std = np.std(positions, axis=0)
-                    position_variance = np.mean(position_std)
-                    mean_pos = np.mean(positions, axis=0)
-                    max_deviation = np.max(np.linalg.norm(positions - mean_pos, axis=1))
-                    if len(raw_position_history) >= 5:
-                        mid = len(raw_position_history) // 2
-                        first_half_mean = np.mean(positions[:mid], axis=0)
-                        second_half_mean = np.mean(positions[mid:], axis=0)
-                        directional_movement = np.linalg.norm(second_half_mean - first_half_mean)
-                    else:
-                        directional_movement = 0.0
-                else:
-                    position_variance = 0.0
-                    max_deviation = 0.0
-                    directional_movement = 0.0
-
-                instant_movement = np.linalg.norm(center - old_data['pos'])
-
+                history = old_data['history'].copy()
+                history.append(center)
+                # Keep last 25 positions
+                if len(history) > 25:
+                    history.pop(0)
+                
                 updated_tracks[best_track] = {
-                    'pos': center,
-                    'smoothed_pos': smoothed_pos,
-                    'initial_pos': initial_pos,
-                    'distance_from_start': distance_from_start,
-                    'raw_position_history': raw_position_history,
-                    'position_variance': position_variance,
-                    'max_deviation': max_deviation,
-                    'directional_movement': directional_movement,
-                    'instant_movement': instant_movement,
+                    'last_pos': center,
+                    'initial_pos': old_data['initial_pos'],
+                    'history': history,
                     'seen_count': old_data['seen_count'] + 1,
-                    'time': cur_time,
-                    'missing': 0,
-                    'confirmed_moving': old_data.get('confirmed_moving', False)
+                    'missing': 0
                 }
                 matched_track_ids.add(best_track)
             else:
+                # Create new track
                 updated_tracks[self.next_id] = {
-                    'pos': center,
-                    'smoothed_pos': center,
+                    'last_pos': center,
                     'initial_pos': center,
-                    'distance_from_start': 0.0,
-                    'raw_position_history': [center],
-                    'position_variance': 0.0,
-                    'max_deviation': 0.0,
-                    'directional_movement': 0.0,
-                    'instant_movement': 0.0,
+                    'history': [center],
                     'seen_count': 1,
-                    'time': cur_time,
-                    'missing': 0,
-                    'confirmed_moving': False
+                    'missing': 0
                 }
                 self.next_id += 1
 
-        # Keep unmatched tracks (unchanged)
+        # Keep unmatched tracks (increment missing count)
         for tid, tdata in self.track_memory.items():
             if tid in matched_track_ids:
                 continue
             missing = tdata.get('missing', 0) + 1
-            max_keep = max_missing if tdata.get('confirmed_moving', False) else max_missing // 2
-            if missing <= max_keep:
-                updated_tracks[tid] = {**tdata, 'missing': missing}
+            if missing <= 10:  # Keep track for 10 missed frames
+                tcopy = dict(tdata)
+                tcopy['missing'] = missing
+                updated_tracks[tid] = tcopy
 
         self.track_memory = updated_tracks
 
-        # Periodic cleanup (unchanged)
-        if self.frame_count % self.check_interval == 0:
-            tracks_to_remove = []
-            for tid, tdata in self.track_memory.items():
-                if tdata['seen_count'] >= min_seen_for_static_check:
-                    variance = tdata.get('position_variance', 0.0)
-                    max_dev = tdata.get('max_deviation', 0.0)
-                    dir_movement = tdata.get('directional_movement', 0.0)
-                    dist_from_start = tdata.get('distance_from_start', 0.0)
-                    is_static = (variance < self.static_position_threshold and
-                                 max_dev < 0.15 and
-                                 dir_movement < 0.12 and
-                                 dist_from_start < 0.25)
-                    if is_static and not tdata.get('confirmed_moving', False):
-                        tracks_to_remove.append(tid)
-            for tid in tracks_to_remove:
-                self.track_memory.pop(tid, None)
-
-        # Select valid tracks (unchanged)
-        min_seen_for_publish = 2
-        min_seen_for_static_check = 10
+        # Filter out static objects - CONTINUOUS TRACKING
         valid_centers = []
         for tid, tdata in self.track_memory.items():
-            max_missing_for_publish = 6 if tdata.get('confirmed_moving', False) else 2
-            if tdata.get('missing', 0) > max_missing_for_publish:
+            # Allow more missing frames to handle brief occlusions
+            if tdata.get('missing', 0) > 8:
                 continue
-            if tdata['seen_count'] < min_seen_for_publish:
-                continue
-
-            is_moving = False
-            if tdata['seen_count'] >= min_seen_for_static_check:
-                variance = tdata.get('position_variance', 0.0)
-                max_dev = tdata.get('max_deviation', 0.0)
-                dir_movement = tdata.get('directional_movement', 0.0)
-                is_static = (variance < self.static_position_threshold and
-                             max_dev < 0.15 and
-                             dir_movement < 0.12)
-                if not is_static:
-                    is_moving = True
-                    tdata['confirmed_moving'] = True
+            
+            history = tdata['history']
+            seen = tdata['seen_count']
+            
+            # Strategy: Publish everything initially, then remove only persistently static objects
+            
+            if len(history) >= 12:
+                # After 12+ frames, we have enough data to be confident
+                positions = np.array(history)
+                
+                # Look at the FULL history to determine if truly static
+                total_displacement = float(np.linalg.norm(positions[-1] - positions[0]))
+                std_dev = float(np.mean(np.std(positions, axis=0)))
+                
+                # Also check recent movement (last 6 frames)
+                recent_positions = positions[-6:]
+                recent_displacement = float(np.linalg.norm(recent_positions[-1] - recent_positions[0]))
+                
+                # Calculate path length
+                path_length = 0.0
+                for i in range(1, len(positions)):
+                    path_length += float(np.linalg.norm(positions[i] - positions[i-1]))
+                
+                # Mark as static ONLY if it's been sitting still the ENTIRE time
+                is_persistently_static = (
+                    total_displacement < 0.08 and      # barely moved from start
+                    std_dev < 0.03 and                 # very stable
+                    recent_displacement < 0.05 and     # not moving recently either
+                    path_length < 0.12                 # almost no total path
+                )
+                
+                if not is_persistently_static:
+                    valid_centers.append(tdata['last_pos'])
             else:
-                if tdata.get('instant_movement', 0) > 0.08:
-                    is_moving = True
-            if tdata.get('confirmed_moving', False):
-                is_moving = True
+                # For newer tracks (1-11 frames): always publish
+                # This ensures we capture people's full movement from start
+                valid_centers.append(tdata['last_pos'])
 
-            if is_moving:
-                valid_centers.append(tdata['smoothed_pos'])
-
-        # --- Publish data points (keep) ---
-        for center in valid_centers:
-            point_msg = PointStamped()
-            point_msg.header.stamp = self.get_clock().now().to_msg()
-            point_msg.header.frame_id = "base_link"
-            point_msg.point.x = float(center[0])
-            point_msg.point.y = float(center[1])
-            point_msg.point.z = 0.0
-            self.people_data.publish(point_msg)
-
-        # --- Publish centroids for tracker as PoseArray  ---
+        # Publish PoseArray to /valid_clusters
         pa = PoseArray()
-        pa.header = msg.header              # same frame as LaserScan (e.g., "laser")
+        pa.header = msg.header
         for center in valid_centers:
             pose = Pose()
             pose.position.x = float(center[0])
@@ -275,13 +196,12 @@ class ReadScanNode(Node):
             pa.poses.append(pose)
         self.centroid_pub.publish(pa)
 
-        # --- Debug spheres (moved to /debug_spheres) ---
+        # Debug spheres (green = published, shows what's being sent to marker node)
         marker_array = MarkerArray()
         for i, center in enumerate(valid_centers):
             marker = Marker()
-            marker.lifetime = Duration(sec=1)
-            marker.frame_locked = False
             marker.header = msg.header
+            marker.frame_locked = True
             marker.ns = "people_debug"
             marker.id = i
             marker.type = Marker.SPHERE
@@ -289,13 +209,20 @@ class ReadScanNode(Node):
             marker.pose.position.x = float(center[0])
             marker.pose.position.y = float(center[1])
             marker.pose.position.z = 0.0
-            marker.scale.x = marker.scale.y = marker.scale.z = 0.2
+            marker.scale.x = marker.scale.y = marker.scale.z = 0.3
             marker.color.a = 1.0
-            marker.color.r = 1.0
-            marker.color.g = 0.0
+            marker.color.r = 0.0
+            marker.color.g = 1.0
             marker.color.b = 0.0
+            marker.lifetime = Duration(sec=1)
             marker_array.markers.append(marker)
         self.debug_marker_pub.publish(marker_array)
+
+        # Log
+        if self.frame_count % 30 == 0:
+            num_static = len(self.track_memory) - len(valid_centers)
+            self.get_logger().info(f"Tracking: {len(self.track_memory)}, Publishing: {len(valid_centers)}, Filtered: {num_static}")
+
 
 def main(args=None):
     rclpy.init(args=args)

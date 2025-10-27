@@ -5,9 +5,9 @@ from rclpy.node import Node
 from geometry_msgs.msg import PoseArray, Point
 from visualization_msgs.msg import Marker, MarkerArray
 
-GATE = 0.6 # max association distance (m)
+GATE = 1.2 # max association distance (m) - increased to handle occlusions better
 MAX_HISTORY = 200 # max points kept per person
-HIDE_AFTER = 10 # frames before we stop extending a track
+HIDE_AFTER = 15 # frames before we stop extending a track - increased to maintain ID longer
 
 class PersonMarkers(Node):
     def __init__(self):
@@ -26,6 +26,20 @@ class PersonMarkers(Node):
         # tracks: id -> {'pos': (x,y), 'history': [Point,...], 'missed':int}
         self.tracks = {}
         self.next_id = 1
+        
+        # Define distinct colors for different people
+        self.colors = [
+            (0.2, 0.8, 0.2),   # Green
+            (0.8, 0.2, 0.2),   # Red
+            (0.2, 0.2, 0.8),   # Blue
+            (0.8, 0.8, 0.2),   # Yellow
+            (0.8, 0.2, 0.8),   # Magenta
+            (0.2, 0.8, 0.8),   # Cyan
+            (0.8, 0.5, 0.2),   # Orange
+            (0.5, 0.2, 0.8),   # Purple
+            (0.2, 0.8, 0.5),   # Teal
+            (0.8, 0.8, 0.8),   # White
+        ]
         
         self.get_logger().info(f"Publishing trails to /person_markers (LINE_STRIP). "
                                f"Subscribing to {in_topic} (PoseArray).")
@@ -90,8 +104,15 @@ class PersonMarkers(Node):
             m.type = Marker.LINE_STRIP
             m.action = Marker.ADD
             m.scale.x = 0.05 # line width (meters)
-            # soft green; adjust if you want multiple colors per id
-            m.color.a = 1.0; m.color.r = 0.6; m.color.g = 0.85; m.color.b = 0.7
+            
+            # Assign color based on track ID
+            color_idx = (tid - 1) % len(self.colors)
+            r, g, b = self.colors[color_idx]
+            m.color.a = 1.0
+            m.color.r = r
+            m.color.g = g
+            m.color.b = b
+            
             m.pose.orientation.w = 1.0 # identity
             m.points = tr['history']
             m.lifetime.sec = 0  # 0 => forever
