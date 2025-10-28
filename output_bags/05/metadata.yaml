@@ -2,10 +2,10 @@ rosbag2_bagfile_information:
   version: 9
   storage_identifier: mcap
   duration:
-    nanoseconds: 8726245918
+    nanoseconds: 26282483542
   starting_time:
-    nanoseconds_since_epoch: 1761607916552230626
-  message_count: 699
+    nanoseconds_since_epoch: 1761620754084779690
+  message_count: 1622
   topics_with_message_count:
     - topic_metadata:
         name: /initialpose
@@ -94,29 +94,7 @@ rosbag2_bagfile_information:
               nsec: 854775807
             avoid_ros_namespace_conventions: false
         type_description_hash: RIHS01_af0cc36d190e104d546d168d6b39df04fa4b4ccecf59cb4c9ed328d3d5004aa0
-      message_count: 162
-    - topic_metadata:
-        name: /people_data
-        type: geometry_msgs/msg/PointStamped
-        serialization_format: cdr
-        offered_qos_profiles:
-          - history: unknown
-            depth: 0
-            reliability: reliable
-            durability: volatile
-            deadline:
-              sec: 9223372036
-              nsec: 854775807
-            lifespan:
-              sec: 9223372036
-              nsec: 854775807
-            liveliness: automatic
-            liveliness_lease_duration:
-              sec: 9223372036
-              nsec: 854775807
-            avoid_ros_namespace_conventions: false
-        type_description_hash: RIHS01_4c0296af86e01e562e9e0405d138a01537247580076c58ea38d7923ac1045897
-      message_count: 0
+      message_count: 525
     - topic_metadata:
         name: /scan
         type: sensor_msgs/msg/LaserScan
@@ -153,7 +131,29 @@ rosbag2_bagfile_information:
               nsec: 854775807
             avoid_ros_namespace_conventions: false
         type_description_hash: RIHS01_64c191398013af96509d518dac71d5164f9382553fce5c1f8cca5be7924bd828
-      message_count: 170
+      message_count: 525
+    - topic_metadata:
+        name: /people_data
+        type: geometry_msgs/msg/PointStamped
+        serialization_format: cdr
+        offered_qos_profiles:
+          - history: unknown
+            depth: 0
+            reliability: reliable
+            durability: volatile
+            deadline:
+              sec: 9223372036
+              nsec: 854775807
+            lifespan:
+              sec: 9223372036
+              nsec: 854775807
+            liveliness: automatic
+            liveliness_lease_duration:
+              sec: 9223372036
+              nsec: 854775807
+            avoid_ros_namespace_conventions: false
+        type_description_hash: RIHS01_4c0296af86e01e562e9e0405d138a01537247580076c58ea38d7923ac1045897
+      message_count: 0
     - topic_metadata:
         name: /parameter_events
         type: rcl_interfaces/msg/ParameterEvent
@@ -266,28 +266,6 @@ rosbag2_bagfile_information:
         type_description_hash: RIHS01_4a50733d58c48fe31919ae8c8516beda7326d70c8e99aee98af3fdfd44ec5ae6
       message_count: 0
     - topic_metadata:
-        name: /debug_spheres
-        type: visualization_msgs/msg/MarkerArray
-        serialization_format: cdr
-        offered_qos_profiles:
-          - history: unknown
-            depth: 0
-            reliability: reliable
-            durability: volatile
-            deadline:
-              sec: 9223372036
-              nsec: 854775807
-            lifespan:
-              sec: 9223372036
-              nsec: 854775807
-            liveliness: automatic
-            liveliness_lease_duration:
-              sec: 9223372036
-              nsec: 854775807
-            avoid_ros_namespace_conventions: false
-        type_description_hash: RIHS01_86cb8800b6fb05b5eff1abd7a56f62a5641d3ae9a1c29e78e67e704f1d067dcf
-      message_count: 162
-    - topic_metadata:
         name: /person_markers
         type: visualization_msgs/msg/MarkerArray
         serialization_format: cdr
@@ -308,7 +286,29 @@ rosbag2_bagfile_information:
               nsec: 854775807
             avoid_ros_namespace_conventions: false
         type_description_hash: RIHS01_86cb8800b6fb05b5eff1abd7a56f62a5641d3ae9a1c29e78e67e704f1d067dcf
-      message_count: 167
+      message_count: 523
+    - topic_metadata:
+        name: /debug_spheres
+        type: visualization_msgs/msg/MarkerArray
+        serialization_format: cdr
+        offered_qos_profiles:
+          - history: unknown
+            depth: 0
+            reliability: reliable
+            durability: volatile
+            deadline:
+              sec: 9223372036
+              nsec: 854775807
+            lifespan:
+              sec: 9223372036
+              nsec: 854775807
+            liveliness: automatic
+            liveliness_lease_duration:
+              sec: 9223372036
+              nsec: 854775807
+            avoid_ros_namespace_conventions: false
+        type_description_hash: RIHS01_86cb8800b6fb05b5eff1abd7a56f62a5641d3ae9a1c29e78e67e704f1d067dcf
+      message_count: 0
     - topic_metadata:
         name: /rosout
         type: rcl_interfaces/msg/Log
@@ -330,7 +330,7 @@ rosbag2_bagfile_information:
               nsec: 854775807
             avoid_ros_namespace_conventions: false
         type_description_hash: RIHS01_e28ce254ca8abc06abf92773b74602cdbf116ed34fbaf294fb9f81da9f318eac
-      message_count: 38
+      message_count: 49
   compression_format: ""
   compression_mode: ""
   relative_file_paths:
@@ -338,9 +338,9 @@ rosbag2_bagfile_information:
   files:
     - path: _0.mcap
       starting_time:
-        nanoseconds_since_epoch: 1761607916552230626
+        nanoseconds_since_epoch: 1761620754084779690
       duration:
-        nanoseconds: 8726245918
-      message_count: 699
+        nanoseconds: 26282483542
+      message_count: 1622
   custom_data: ~
   ros_distro: jazzy

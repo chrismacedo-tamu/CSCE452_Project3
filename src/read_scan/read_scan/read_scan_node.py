@@ -23,7 +23,7 @@ class ReadScanNode(Node):
         self.centroid_pub = self.create_publisher(PoseArray, '/valid_clusters', 10)
 
         # Clustering params
-        self.cluster_threshold = 1.0
+        self.cluster_threshold = 0.4
         self.min_cluster_size = 5
         self.max_cluster_size = 35
 
@@ -71,7 +71,7 @@ class ReadScanNode(Node):
         if self.min_cluster_size <= len(cur_cluster) <= self.max_cluster_size:
             cluster_list.append(np.array(cur_cluster))
 
-        # Shape filter (reject extreme elongation)
+        # Filtering by shape
         filtered_clusters = []
         for cluster in cluster_list:
             if cluster.shape[0] >= 3:
@@ -90,13 +90,13 @@ class ReadScanNode(Node):
         updated_tracks = {}
         matched_track_ids = set()
 
-        # Match current detections to existing tracks
+        # Match current cluster detections to existing tracks
         for center in cur_centers:
             best_track = None
             best_dist = float('inf')
             for tid, tdata in self.track_memory.items():
                 dist = np.linalg.norm(center - tdata['last_pos'])
-                if dist < best_dist and dist < 1.5:  # 1.5m association gate
+                if dist < best_dist and dist < 1.5:
                     best_dist = dist
                     best_track = tid
 
@@ -105,8 +105,8 @@ class ReadScanNode(Node):
                 old_data = self.track_memory[best_track]
                 history = old_data['history'].copy()
                 history.append(center)
-                # Keep last 25 positions
-                if len(history) > 25:
+                # Keep last 30 positions
+                if len(history) > 30:
                     history.pop(0)
                 
                 updated_tracks[best_track] = {
@@ -128,12 +128,12 @@ class ReadScanNode(Node):
                 }
                 self.next_id += 1
 
-        # Keep unmatched tracks (increment missing count)
+        # Keep unmatched tracks
         for tid, tdata in self.track_memory.items():
             if tid in matched_track_ids:
                 continue
             missing = tdata.get('missing', 0) + 1
-            if missing <= 10:  # Keep track for 10 missed frames
+            if missing <= 20: 
                 tcopy = dict(tdata)
                 tcopy['missing'] = missing
                 updated_tracks[tid] = tcopy
@@ -171,17 +171,17 @@ class ReadScanNode(Node):
                 
                 # Mark as static ONLY if it's been sitting still the ENTIRE time
                 is_persistently_static = (
-                    total_displacement < 0.08 and      # barely moved from start
-                    std_dev < 0.03 and                 # very stable
-                    recent_displacement < 0.05 and     # not moving recently either
-                    path_length < 0.12                 # almost no total path
+                    total_displacement < 0.12 and      # barely moved from start
+                    std_dev < 0.04 and                 # very stable
+                    recent_displacement < 0.2 and     # not moving recently either
+                    path_length < 0.20                 # almost no total path
                 )
                 
                 if not is_persistently_static:
                     valid_centers.append(tdata['last_pos'])
             else:
-                # For newer tracks (1-11 frames): always publish
-                # This ensures we capture people's full movement from start
+                # For newer tracks, always publish
+                #    ensures we capture full movement from start
                 valid_centers.append(tdata['last_pos'])
 
         # Publish PoseArray to /valid_clusters
@@ -195,29 +195,7 @@ class ReadScanNode(Node):
             pose.orientation.w = 1.0
             pa.poses.append(pose)
         self.centroid_pub.publish(pa)
-
-        # Debug spheres (green = published, shows what's being sent to marker node)
-        marker_array = MarkerArray()
-        for i, center in enumerate(valid_centers):
-            marker = Marker()
-            marker.header = msg.header
-            marker.frame_locked = True
-            marker.ns = "people_debug"
-            marker.id = i
-            marker.type = Marker.SPHERE
-            marker.action = Marker.ADD
-            marker.pose.position.x = float(center[0])
-            marker.pose.position.y = float(center[1])
-            marker.pose.position.z = 0.0
-            marker.scale.x = marker.scale.y = marker.scale.z = 0.3
-            marker.color.a = 1.0
-            marker.color.r = 0.0
-            marker.color.g = 1.0
-            marker.color.b = 0.0
-            marker.lifetime = Duration(sec=1)
-            marker_array.markers.append(marker)
-        self.debug_marker_pub.publish(marker_array)
-
+        
         # Log
         if self.frame_count % 30 == 0:
             num_static = len(self.track_memory) - len(valid_centers)
