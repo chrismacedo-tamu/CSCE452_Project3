@@ -2,10 +2,10 @@ rosbag2_bagfile_information:
   version: 9
   storage_identifier: mcap
   duration:
-    nanoseconds: 37093127845
+    nanoseconds: 37153100042
   starting_time:
-    nanoseconds_since_epoch: 1761608019575807547
-  message_count: 3024
+    nanoseconds_since_epoch: 1761621544571964159
+  message_count: 1958
   topics_with_message_count:
     - topic_metadata:
         name: /scan
@@ -45,6 +45,43 @@ rosbag2_bagfile_information:
         type_description_hash: RIHS01_64c191398013af96509d518dac71d5164f9382553fce5c1f8cca5be7924bd828
       message_count: 742
     - topic_metadata:
+        name: /events/read_split
+        type: rosbag2_interfaces/msg/ReadSplitEvent
+        serialization_format: cdr
+        offered_qos_profiles:
+          - history: unknown
+            depth: 0
+            reliability: reliable
+            durability: volatile
+            deadline:
+              sec: 9223372036
+              nsec: 854775807
+            lifespan:
+              sec: 9223372036
+              nsec: 854775807
+            liveliness: automatic
+            liveliness_lease_duration:
+              sec: 9223372036
+              nsec: 854775807
+            avoid_ros_namespace_conventions: false
+          - history: unknown
+            depth: 0
+            reliability: reliable
+            durability: volatile
+            deadline:
+              sec: 9223372036
+              nsec: 854775807
+            lifespan:
+              sec: 9223372036
+              nsec: 854775807
+            liveliness: automatic
+            liveliness_lease_duration:
+              sec: 9223372036
+              nsec: 854775807
+            avoid_ros_namespace_conventions: false
+        type_description_hash: RIHS01_6f21c9b52d788338b0775ceccb49f38e7a8baad7b954f79dd280baed91145ad7
+      message_count: 0
+    - topic_metadata:
         name: /people_data
         type: geometry_msgs/msg/PointStamped
         serialization_format: cdr
@@ -71,51 +108,6 @@ rosbag2_bagfile_information:
         type: rcl_interfaces/msg/ParameterEvent
         serialization_format: cdr
         offered_qos_profiles:
-          - history: unknown
-            depth: 0
-            reliability: reliable
-            durability: volatile
-            deadline:
-              sec: 9223372036
-              nsec: 854775807
-            lifespan:
-              sec: 9223372036
-              nsec: 854775807
-            liveliness: automatic
-            liveliness_lease_duration:
-              sec: 9223372036
-              nsec: 854775807
-            avoid_ros_namespace_conventions: false
-          - history: unknown
-            depth: 0
-            reliability: reliable
-            durability: volatile
-            deadline:
-              sec: 9223372036
-              nsec: 854775807
-            lifespan:
-              sec: 9223372036
-              nsec: 854775807
-            liveliness: automatic
-            liveliness_lease_duration:
-              sec: 9223372036
-              nsec: 854775807
-            avoid_ros_namespace_conventions: false
-          - history: unknown
-            depth: 0
-            reliability: reliable
-            durability: volatile
-            deadline:
-              sec: 9223372036
-              nsec: 854775807
-            lifespan:
-              sec: 9223372036
-              nsec: 854775807
-            liveliness: automatic
-            liveliness_lease_duration:
-              sec: 9223372036
-              nsec: 854775807
-            avoid_ros_namespace_conventions: false
           - history: unknown
             depth: 0
             reliability: reliable
@@ -206,7 +198,7 @@ rosbag2_bagfile_information:
               nsec: 854775807
             avoid_ros_namespace_conventions: false
         type_description_hash: RIHS01_af0cc36d190e104d546d168d6b39df04fa4b4ccecf59cb4c9ed328d3d5004aa0
-      message_count: 742
+      message_count: 741
     - topic_metadata:
         name: /goal_pose
         type: geometry_msgs/msg/PoseStamped
@@ -228,43 +220,6 @@ rosbag2_bagfile_information:
               nsec: 854775807
             avoid_ros_namespace_conventions: false
         type_description_hash: RIHS01_10f3786d7d40fd2b54367835614bff85d4ad3b5dab62bf8bca0cc232d73b4cd8
-      message_count: 0
-    - topic_metadata:
-        name: /events/read_split
-        type: rosbag2_interfaces/msg/ReadSplitEvent
-        serialization_format: cdr
-        offered_qos_profiles:
-          - history: unknown
-            depth: 0
-            reliability: reliable
-            durability: volatile
-            deadline:
-              sec: 9223372036
-              nsec: 854775807
-            lifespan:
-              sec: 9223372036
-              nsec: 854775807
-            liveliness: automatic
-            liveliness_lease_duration:
-              sec: 9223372036
-              nsec: 854775807
-            avoid_ros_namespace_conventions: false
-          - history: unknown
-            depth: 0
-            reliability: reliable
-            durability: volatile
-            deadline:
-              sec: 9223372036
-              nsec: 854775807
-            lifespan:
-              sec: 9223372036
-              nsec: 854775807
-            liveliness: automatic
-            liveliness_lease_duration:
-              sec: 9223372036
-              nsec: 854775807
-            avoid_ros_namespace_conventions: false
-        type_description_hash: RIHS01_6f21c9b52d788338b0775ceccb49f38e7a8baad7b954f79dd280baed91145ad7
       message_count: 0
     - topic_metadata:
         name: /clicked_point
@@ -331,7 +286,7 @@ rosbag2_bagfile_information:
               nsec: 854775807
             avoid_ros_namespace_conventions: false
         type_description_hash: RIHS01_86cb8800b6fb05b5eff1abd7a56f62a5641d3ae9a1c29e78e67e704f1d067dcf
-      message_count: 742
+      message_count: 419
     - topic_metadata:
         name: /debug_spheres
         type: visualization_msgs/msg/MarkerArray
@@ -353,7 +308,7 @@ rosbag2_bagfile_information:
               nsec: 854775807
             avoid_ros_namespace_conventions: false
         type_description_hash: RIHS01_86cb8800b6fb05b5eff1abd7a56f62a5641d3ae9a1c29e78e67e704f1d067dcf
-      message_count: 742
+      message_count: 0
     - topic_metadata:
         name: /rosout
         type: rcl_interfaces/msg/Log
@@ -383,9 +338,9 @@ rosbag2_bagfile_information:
   files:
     - path: _0.mcap
       starting_time:
-        nanoseconds_since_epoch: 1761608019575807547
+        nanoseconds_since_epoch: 1761621544571964159
       duration:
-        nanoseconds: 37093127845
-      message_count: 3024
+        nanoseconds: 37153100042
+      message_count: 1958
   custom_data: ~
   ros_distro: jazzy

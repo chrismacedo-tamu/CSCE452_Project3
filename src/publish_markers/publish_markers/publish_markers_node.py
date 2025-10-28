@@ -1,13 +1,15 @@
 import math
 import rclpy
 from rclpy.node import Node
-
+from scipy.spatial import KDTree
+from collections import deque
 from geometry_msgs.msg import PoseArray, Point
 from visualization_msgs.msg import Marker, MarkerArray
 
-GATE = 1.2 # max association distance (m) - increased to handle occlusions better
+GATE = 1.8 # max association distance (m) - increased to handle occlusions better
 MAX_HISTORY = 200 # max points kept per person
-HIDE_AFTER = 15 # frames before we stop extending a track - increased to maintain ID longer
+HIDE_AFTER = 10 # frames before we stop extending a track - increased to maintain ID longer
+SMOOTH_ALPHA = 0.1 # used for moving average
 
 class PersonMarkers(Node):
     def __init__(self):
@@ -44,42 +46,58 @@ class PersonMarkers(Node):
         self.get_logger().info(f"Publishing trails to /person_markers (LINE_STRIP). "
                                f"Subscribing to {in_topic} (PoseArray).")
         
+            
+
     def on_clusters(self, msg: PoseArray):
-        # extract detections as (x,y)
         detections = [(p.position.x, p.position.y) for p in msg.poses]
+        if not detections:
+            return
 
-        # greedy nearest-neighbor association
-        unmatched_tids = set(self.tracks.keys())
-        assignments = []  # (tid, (x,y))
+        # Build KD tree with track positions
+        if self.tracks:
+            track_positions = [self.tracks[tid]['pos'] for tid in self.tracks]
+            tids = list(self.tracks.keys())
+            tree = KDTree(track_positions)
 
-        for(x,y) in detections:
-            best_tid, best_d = None, GATE
-            for tid in list(unmatched_tids):
-                tx, ty = self.tracks[tid]['pos']
-                d = math.hypot(x - tx, y - ty)
-                if d <= best_d:
-                    best_tid, best_d = tid, d
-            if best_tid is not None:
-                assignments.append((best_tid, (x, y)))
-                unmatched_tids.remove(best_tid)
-            else:
-                # start a new track
+            matched_tids = set()
+            assignments = []
+
+            for (x, y) in detections:
+                d, idx = tree.query((x, y))
+                if d <= GATE:
+                    tid = tids[idx]
+                    if tid not in matched_tids:
+                        matched_tids.add(tid)
+                        assignments.append((tid, (x, y)))
+                else:
+                    # start a new track
+                    tid = self.next_id
+                    self.next_id += 1
+                    self.tracks[tid] = {'pos': (x, y), 'history': [], 'missed': 0}
+                    assignments.append((tid, (x, y)))
+        else:
+            assignments = []
+            for (x, y) in detections:
                 tid = self.next_id
                 self.next_id += 1
                 self.tracks[tid] = {'pos': (x, y), 'history': [], 'missed': 0}
                 assignments.append((tid, (x, y)))
 
+
         # update matched tracks
         for tid, (x,y) in assignments:
             tr = self.tracks[tid]
-            tr['pos'] = (x,y)
+            old_x, old_y = tr['pos']
+            new_x = SMOOTH_ALPHA * x + (1 - SMOOTH_ALPHA) * old_x
+            new_y = SMOOTH_ALPHA * y + (1 - SMOOTH_ALPHA) * old_y
+            tr['pos'] = (new_x, new_y)
             tr['missed'] = 0
         
-        # increment missed for tracks that weren't matched
-        for tid in unmatched_tids:
+        # increment missed for tracks that werent matched
+        for tid in set(self.tracks.keys()) - {t for t, _ in assignments}:
             self.tracks[tid]['missed'] += 1
         
-        # append current position to history only for "visible" tracks
+        # append cur pos to history only for visible tracks
         stamp = msg.header.stamp
         fr = msg.header.frame_id or self.frame_id
 
@@ -91,7 +109,7 @@ class PersonMarkers(Node):
                 if len(tr['history']) > MAX_HISTORY:
                     tr['history'].pop(0)
         
-        # build MarkerArray (one LINE_STRIP per visible track)
+        # build MarkerArray
         marr = MarkerArray()
         for tid, tr in self.tracks.items():
             if len(tr['history']) < 2 or tr['missed'] >= HIDE_AFTER:
@@ -103,9 +121,9 @@ class PersonMarkers(Node):
             m.id = tid
             m.type = Marker.LINE_STRIP
             m.action = Marker.ADD
-            m.scale.x = 0.05 # line width (meters)
+            m.scale.x = 0.05
             
-            # Assign color based on track ID
+            # Assign color per ID
             color_idx = (tid - 1) % len(self.colors)
             r, g, b = self.colors[color_idx]
             m.color.a = 1.0
@@ -113,7 +131,7 @@ class PersonMarkers(Node):
             m.color.g = g
             m.color.b = b
             
-            m.pose.orientation.w = 1.0 # identity
+            m.pose.orientation.w = 1.0
             m.points = tr['history']
             m.lifetime.sec = 0  # 0 => forever
             marr.markers.append(m)
